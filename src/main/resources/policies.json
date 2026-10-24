@@ -1,0 +1,7 @@
+[
+  {"id":"P-001","title":"Large amount control","body":"Transactions of USD 10,000 or more require additional documented review. This illustrative threshold is not regulatory advice."},
+  {"id":"P-002","title":"New beneficiary control","body":"A newly added beneficiary requires human verification before a case can be closed."},
+  {"id":"P-003","title":"Potential sanctions match","body":"Any potential sanctions hit must be held and escalated to the compliance team. This demo must never approve such a case."},
+  {"id":"P-004","title":"Account mismatch","body":"Any beneficiary account mismatch requires manual investigation before resolution."},
+  {"id":"P-005","title":"Mandatory human approval","body":"All AI-generated findings are advisory. An authenticated reviewer must explicitly approve or reject eligible cases. No funds are transferred by this application."}
+]

@@ -1,0 +1,53 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bankflow
+      POSTGRES_USER: bankflow
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-local-db-only}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bankflow -d bankflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+  mock-core:
+    build: ./mock-core
+    environment:
+      CORE_API_KEY: ${CORE_API_KEY:-demo-core-key}
+    ports:
+      - "127.0.0.1:8090:8090"
+  app:
+    profiles: ["full"]
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      HOST: 0.0.0.0
+      DB_URL: jdbc:postgresql://db:5432/bankflow
+      DB_USER: bankflow
+      DB_PASSWORD: ${DB_PASSWORD:-local-db-only}
+      CORE_MODE: http
+      CORE_URL: http://mock-core:8090
+      CORE_API_KEY: ${CORE_API_KEY:-demo-core-key}
+      REVIEW_PASSWORD: ${REVIEW_PASSWORD:-local-demo-only}
+      AI_MODE: mock
+      EMBEDDING_MODE: mock
+    depends_on:
+      db:
+        condition: service_healthy
+      mock-core:
+        condition: service_started
+  prometheus:
+    profiles: ["monitoring"]
+    image: prom/prometheus:v3.6.0
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+volumes:
+  postgres_data:

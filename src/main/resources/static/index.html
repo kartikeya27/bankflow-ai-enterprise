@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BankFlow AI | Banking Agentic Operations</title>
+  <style>
+    :root { --ink:#17263d;--muted:#62738b;--border:#dce4ef;--bg:#f3f6fb;--navy:#10243c;--blue:#2467e9;--green:#0c8760;--orange:#b35b0b;--red:#b42d41;--card:#fff }
+    * { box-sizing:border-box } body { margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.5 }
+    .top { background:var(--navy);color:white;padding:20px max(20px,calc((100vw - 1200px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px }
+    .brand {font-size:23px;font-weight:780;letter-spacing:-.5px}.brand span {color:#80b3ff}.subtitle{color:#cbd9e9;font-size:12px}
+    .eyebrow{font-size:11px;color:#588af9;font-weight:750;letter-spacing:1.3px;text-transform:uppercase}
+    main{max-width:1200px;margin:auto;padding:28px 18px 60px} h1{font-size:29px;letter-spacing:-.6px;margin:5px 0} h2{font-size:17px;margin:0 0 14px}
+    .intro{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:20px}.intro p{margin:0;color:var(--muted)}
+    .statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}.stat{padding:17px;background:var(--card);border:1px solid var(--border);border-radius:12px}.stat b{display:block;font-size:25px;letter-spacing:-1px}.stat span{font-size:12px;color:var(--muted)}
+    .layout{display:grid;grid-template-columns:minmax(315px,400px) minmax(0,1fr);gap:18px;align-items:start}
+    .card{background:white;border:1px solid var(--border);border-radius:14px;padding:21px;box-shadow:0 2px 10px rgba(25,45,78,.025)}
+    .card+.card{margin-top:18px}label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:#394b63}
+    input,textarea,select{font-family:inherit;width:100%;background:#fff;color:var(--ink);border:1px solid #cdd7e5;border-radius:8px;padding:10px 11px;font-size:14px}
+    input:focus,textarea:focus,select:focus{outline:2px solid #c0d6fc;border-color:var(--blue)}textarea{resize:vertical;min-height:58px}
+    .field{margin-bottom:13px}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.check{display:flex;align-items:start;gap:9px;padding:8px 0;font-size:13px}.check input{width:auto;margin-top:4px}
+    button{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:11px 15px;cursor:pointer;font-weight:750;font-size:13px}button:disabled{opacity:.5;cursor:not-allowed}
+    .secondary{background:#e9effa;color:#204878}.danger{background:#fff1ef;color:#a33b27;border:1px solid #f3c9c0}
+    .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+    .pill{font-size:11px;font-weight:800;display:inline-flex;border-radius:50px;padding:4px 9px;background:#edf2f9;color:#52627c}.pill.high,.pill.escalated_compliance{color:var(--red);background:#fff0f1}.pill.medium,.pill.pending_review{color:var(--orange);background:#fff4e7}.pill.low,.pill.review_approved{color:var(--green);background:#e7f8ef}
+    .case-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;border:1px solid var(--border);border-radius:10px;margin-bottom:9px;cursor:pointer;background:#fff;text-align:left;width:100%;color:inherit}
+    .case-item:hover,.case-item.active{border-color:var(--blue);background:#f4f8ff}.case-item small{display:block;color:var(--muted);font-weight:400}
+    .small{font-size:12px;color:var(--muted)}.meta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 17px}.line{border:0;border-top:1px solid var(--border);margin:17px 0}
+    .trace{border-left:2px solid #c4d8ff;margin:10px 0 0 7px;padding:0 0 1px 17px}.step{position:relative;margin-bottom:14px}.step:before{content:"";position:absolute;left:-22px;top:4px;width:9px;height:9px;background:#2b6ef0;border-radius:50%;border:2px solid #fff}
+    .step strong{font-size:13px}.step p{margin:2px 0;color:var(--muted);font-size:12px}
+    .policy{padding:11px 12px;background:#f5f8fd;border-radius:9px;margin:8px 0}.policy b{font-size:12px}.policy p{font-size:12px;margin:4px 0 0;color:#50627b}
+    .notice{padding:10px 12px;border:1px solid #dfdfea;background:#f9faff;border-radius:9px;font-size:12px;color:#455875;margin-bottom:14px}
+    .error{background:#fff0f0;border:1px solid #f0bbbb;color:#a22531}.success{background:#ecfaf3;border:1px solid #b9e4cb;color:#146642}
+    .hidden{display:none!important}.note{font-size:12px;margin-top:9px;color:var(--muted)}
+    footer{padding:18px 0;font-size:12px;color:#738096}
+    @media(max-width:800px){.statgrid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.intro{display:block}.top{padding:16px}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div><div class="brand">BankFlow <span>AI</span></div><div class="subtitle">Agentic Banking Operations • FDE Enterprise Demo</div></div>
+    <div><span class="pill" id="mode">Loading model...</span><div class="subtitle" style="margin-top:6px">Java 21 · Spring Boot · AWS Bedrock-ready</div></div>
+  </header>
+  <main>
+    <div class="intro"><div><div class="eyebrow">Business workflow → production-style control pattern</div><h1>Payment exception investigation</h1><p>Policy-grounded investigation, deterministic risk controls, human approval and auditable decisions.</p></div></div>
+    <div class="statgrid">
+      <div class="stat"><b id="processed">0</b><span>Cases investigated</span></div>
+      <div class="stat"><b id="open">0</b><span>Awaiting review</span></div>
+      <div class="stat"><b id="reviewed">0</b><span>Human decisions</span></div>
+      <div class="stat"><b>5</b><span>Illustrative policy controls</span></div>
+    </div>
+    <div class="layout">
+      <section>
+        <div class="card">
+          <h2>New synthetic case</h2>
+          <div class="notice">Use invented identifiers only. This demo is not a payment system and does not move funds.</div>
+          <form id="case-form">
+            <div class="field"><label for="reference">Case reference</label><input id="reference" maxlength="40" pattern="[A-Za-z0-9_-]+" required value="DEMO-1001"></div>
+            <div class="two">
+              <div class="field"><label for="amount">Amount (USD)</label><input id="amount" type="number" min="0.01" max="100000000" step="0.01" required value="12500"></div>
+              <div class="field"><label for="currency">Currency</label><input id="currency" value="USD" disabled></div>
+            </div>
+            <label>Exception signals</label>
+            <div class="check"><input type="checkbox" id="newBeneficiary" checked><span>New beneficiary recently added</span></div>
+            <div class="check"><input type="checkbox" id="sanctionsHit"><span>Possible sanctions match (hard hold)</span></div>
+            <div class="check"><input type="checkbox" id="accountMismatch"><span>Beneficiary account mismatch</span></div>
+            <div class="field" style="margin-top:12px"><label for="narrative">Analyst narrative (synthetic)</label><textarea id="narrative" maxlength="500">Synthetic exception flagged during payment processing.</textarea></div>
+            <button type="submit" id="run">Run investigation agents →</button>
+            <p class="note">Model calls occur only when AI_MODE=bedrock.</p>
+          </form>
+          <div id="message" role="status" class="notice hidden" style="margin-top:13px"></div>
+        </div>
+        <div class="card"><div class="toolbar"><h2 style="margin:0">Case queue</h2><button class="secondary" id="refresh" type="button">Refresh</button></div><div id="queue" class="small">No cases yet.</div></div>
+      </section>
+      <section>
+        <div class="card" id="details"><h2>Agent investigation</h2><p class="small">Run a case or select one from the queue to inspect the full decision trace and cited policies.</p></div>
+        <div class="card" id="review-panel">
+          <h2>Human-in-the-loop review</h2>
+          <div class="notice">Demo reviewer credentials are configured locally. A review closes a case; it never initiates a transaction.</div>
+          <div id="review-summary" class="small">Select a case to review.</div>
+          <form id="review-form" class="hidden">
+            <div class="two">
+              <div class="field"><label for="username">Reviewer username</label><input id="username" autocomplete="username" value="reviewer" required></div>
+              <div class="field"><label for="password">Demo password</label><input id="password" type="password" autocomplete="current-password" required placeholder="See README"></div>
+            </div>
+            <div class="field"><label for="note">Review rationale (4+ characters)</label><textarea id="note" required minlength="4" maxlength="400" placeholder="Document what was verified."></textarea></div>
+            <div style="display:flex;flex-wrap:wrap;gap:9px"><button type="button" id="approve">Approve case</button><button type="button" id="reject" class="danger">Reject case</button></div>
+          </form>
+        </div>
+      </section>
+    </div>
+    <footer>Engineering demonstration only · Synthetic data · Policy IDs and thresholds are illustrative, not legal or regulatory guidance</footer>
+  </main>
+  <script>
+    'use strict';
+    let selected = null;
+    const el = (id) => document.getElementById(id);
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const info = (message, isError=false) => { el('message').textContent=message; el('message').className='notice '+(isError?'error':'success'); };
+    async function request(path,options={}) {
+      const response = await fetch(path,options);
+      if (!response.ok) { const content = await response.text(); throw new Error('HTTP '+response.status+' — '+content.slice(0,180)); }
+      return response.json();
+    }
+    async function refresh() {
+      try {
+        const [metrics,cases] = await Promise.all([request('/api/metrics'),request('/api/cases')]);
+        el('processed').textContent=metrics.processed;
+        el('reviewed').textContent=metrics.reviewed;
+        el('open').textContent=metrics.open;
+        el('mode').textContent=metrics.model;
+        el('queue').innerHTML=cases.length ? cases.map(c=>`<button class="case-item ${selected && selected.id===c.id?'active':''}" data-id="${esc(c.id)}"><span><strong>${esc(c.input.reference)}</strong><small>$${esc(c.input.amount)} · ${esc(c.riskLevel)} risk</small></span><span class="pill ${esc(c.status.toLowerCase())}">${esc(c.status.replaceAll('_',' '))}</span></button>`).join('') : '<p>No cases yet. Start an investigation.</p>';
+        el('queue').querySelectorAll('[data-id]').forEach(b=>b.addEventListener('click',()=>selectCase(b.dataset.id)));
+      } catch (err) { info('Could not load cases: '+err.message,true); }
+    }
+    async function selectCase(id) { try { selected=await request('/api/cases/'+encodeURIComponent(id)); renderDetails(); refresh(); } catch(e){info(e.message,true);} }
+    function renderDetails() {
+      if(!selected)return;
+      const c=selected;
+      el('details').innerHTML=`<div class="toolbar"><h2 style="margin:0">${esc(c.input.reference)}</h2><span class="pill ${esc(c.riskLevel.toLowerCase())}">${esc(c.riskLevel)} RISK</span></div>
+       <div class="meta"><span class="pill ${esc(c.status.toLowerCase())}">${esc(c.status.replaceAll('_',' '))}</span><span class="pill">${esc(c.llmProvider)}</span><span class="pill">${esc(c.latencyMs)} ms</span></div>
+       <div class="notice"><b>System recommendation:</b> ${esc(c.recommendation)}</div>
+       <h2>Agent execution trace</h2><div class="trace">${c.trace.map(s=>`<div class="step"><strong>${esc(s.agent)}</strong><p>${esc(s.outcome)}</p></div>`).join('')}</div>
+       <hr class="line"><h2>Grounded explanation</h2><p>${esc(c.explanation)}</p>
+       <hr class="line"><h2>Retrieved policy evidence</h2>${c.policies.map(p=>`<div class="policy"><b>${esc(p.id)} · ${esc(p.title)}</b><p>${esc(p.body)}</p></div>`).join('')}
+       <p class="small">Case ID: ${esc(c.id)} · ${esc(c.createdAt)}</p>`;
+      const reviewable=['PENDING_REVIEW','ESCALATED_COMPLIANCE'].includes(c.status);
+      el('review-form').classList.toggle('hidden',!reviewable);
+      el('review-summary').textContent=reviewable ? `Selected: ${c.input.reference} — ${c.status}` : `Decision: ${c.status} by ${c.reviewedBy || 'unknown'}.`;
+      el('approve').disabled=c.status==='ESCALATED_COMPLIANCE';
+      el('approve').title=c.status==='ESCALATED_COMPLIANCE'?'Sanctions hold cannot be approved':'';
+    }
+    el('case-form').addEventListener('submit',async(event)=>{
+      event.preventDefault();el('run').disabled=true;
+      try {
+        const payload={reference:el('reference').value,amount:Number(el('amount').value),currency:'USD',newBeneficiary:el('newBeneficiary').checked,sanctionsHit:el('sanctionsHit').checked,accountMismatch:el('accountMismatch').checked,narrative:el('narrative').value};
+        const c=await request('/api/cases',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        selected=c;renderDetails();await refresh();info('Case investigated. Review the agent trace and policy controls.');
+      } catch(err){info('Investigation failed: '+err.message,true);} finally{el('run').disabled=false;}
+    });
+    async function decision(action) {
+      if (!selected) return;
+      const user=el('username').value,pass=el('password').value;
+      if(!user||!pass||el('note').value.trim().length<4){info('Enter reviewer credentials and a rationale of at least 4 characters.',true);return;}
+      try {
+        const payload={decision:action,note:el('note').value};
+        const auth=btoa(String.fromCharCode(...new TextEncoder().encode(user+':'+pass)));
+        selected=await request('/api/cases/'+encodeURIComponent(selected.id)+'/decision',{
+          method:'POST',headers:{'Content-Type':'application/json','Authorization':'Basic '+auth},body:JSON.stringify(payload)});
+        el('password').value='';el('note').value='';renderDetails();await refresh();info('Reviewer decision recorded in append-only audit log.');
+      }catch(err){info('Review failed: '+err.message,true);}
+    }
+    el('approve').addEventListener('click',()=>decision('APPROVE'));
+    el('reject').addEventListener('click',()=>decision('REJECT'));
+    el('refresh').addEventListener('click',refresh);
+    refresh();
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+aws_region = "us-east-1"
+vpc_id = "vpc-REPLACE_ME"
+public_subnets = ["subnet-PUBLIC_A", "subnet-PUBLIC_B"]
+private_subnets = ["subnet-PRIVATE_A", "subnet-PRIVATE_B"]
+app_hostname = "bankflow.example.com"
+route53_zone_id = "ZREPLACE_ME"
+alb_certificate_arn = "arn:aws:acm:us-east-1:ACCOUNT:certificate/REPLACE"
+oidc_issuer_uri = "https://identity.example.com/real-tenant"
+core_sandbox_url = "https://approved-bank-sandbox.example.com"
+core_sandbox_key_secret_arn = "arn:aws:secretsmanager:us-east-1:ACCOUNT:secret:REPLACE"
+container_tag = "v2"

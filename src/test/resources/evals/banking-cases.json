@@ -1,0 +1,7 @@
+[
+  {"name":"low-risk","amount":125,"newBeneficiary":false,"sanctionsHit":false,"accountMismatch":false,"risk":"LOW","status":"PENDING_REVIEW","policy":"P-005"},
+  {"name":"large-payment","amount":15000,"newBeneficiary":false,"sanctionsHit":false,"accountMismatch":false,"risk":"MEDIUM","status":"PENDING_REVIEW","policy":"P-001"},
+  {"name":"new-beneficiary","amount":300,"newBeneficiary":true,"sanctionsHit":false,"accountMismatch":false,"risk":"MEDIUM","status":"PENDING_REVIEW","policy":"P-002"},
+  {"name":"sanctions","amount":400,"newBeneficiary":false,"sanctionsHit":true,"accountMismatch":false,"risk":"HIGH","status":"ESCALATED_COMPLIANCE","policy":"P-003"},
+  {"name":"mismatch","amount":100,"newBeneficiary":false,"sanctionsHit":false,"accountMismatch":true,"risk":"HIGH","status":"PENDING_REVIEW","policy":"P-004"}
+]

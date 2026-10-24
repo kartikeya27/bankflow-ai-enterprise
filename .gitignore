@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/
+.vscode/
+target/
+data/
+*.log
+*.iml
+terraform.tfstate*
+.terraform/
+*.tfvars
+!*.tfvars.example
+reports/

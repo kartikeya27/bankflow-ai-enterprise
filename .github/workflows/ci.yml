@@ -1,0 +1,48 @@
+name: BankFlow CI Security and Evaluation
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test-and-evaluate:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_DB: bankflow
+          POSTGRES_USER: bankflow
+          POSTGRES_PASSWORD: local-db-only
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U bankflow -d bankflow"
+          --health-interval 5s --health-timeout 5s --health-retries 15
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/bankflow
+      DB_USER: bankflow
+      DB_PASSWORD: local-db-only
+      AI_MODE: mock
+      EMBEDDING_MODE: mock
+      CORE_MODE: mock
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Unit integration and evaluation gates
+        run: mvn -B -ntp clean verify
+      - name: Build container
+        run: docker build -t bankflow-ai:ci .
+      - name: Filesystem vulnerability scan
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+  # A separate production release workflow should sign artifacts, require approvals,
+  # scan the pushed image, run live model evaluations and deploy with environment approvals.
