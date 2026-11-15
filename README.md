@@ -1,5 +1,8 @@
 # BankFlow AI Enterprise — Forward Deployed Engineer Portfolio
 
+**Languages represented in this repository:**
+![Java](https://img.shields.io/badge/Java-ED8B00?logo=java&logoColor=white) ![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![SQL](https://img.shields.io/badge/SQL-4479A1?logo=postgresql&logoColor=white) ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?logo=terraform&logoColor=white)
+
 ## Technology Stack
 
 Java 21 · Spring Boot · AWS Bedrock · PostgreSQL/pgvector · Branching AI workflow · Banking sandbox integration · Audit · CI/evaluations · Terraform AWS ECS/RDS
